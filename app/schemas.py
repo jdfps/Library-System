@@ -13,6 +13,7 @@ class ShowBook(BaseModel):
     Title: str
     Author: str
     Genre: str
+    ISBN: str
     Description: str
 
     class Config:

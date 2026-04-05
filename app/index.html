@@ -10,16 +10,41 @@
 
 <body>
 
-    <!--TOP PAGE HEADER-->
     <header class="top-header">
         This is going to be the header
     </header>
-    <!--MAIN BODY OF PAGE-->
-    <main>
-        <div class="testing">
-            <h1>Placement text</h1>
+
+    <main style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+        <div class="add_book">
+            <label for="isbn">Enter ISBN-13</label>
+            <input id="isbn" type="text" placeholder="ISBN">
+            <br>
+
+            <label for="author">Enter Author</label>
+            <input id="author" type="text" placeholder="Author">
+            <br>
+
+            <label for="title">Enter Title</label>
+            <input id="title" type="text" placeholder="Title">
+            <br>
+
+            <label for="genre">Enter Genre</label>
+            <input id="genre" type="text" placeholder="Genre">
+            <br>
+
+            <label for="description">Enter Description</label>
+            <input id="description" type="text" placeholder="Description">
+            <br>
+
+            <button id="btn-add-book">Add Book</button>
+        </div>
+
+        <div class="book-output">
+            <p id="book-paragraph"></p>
         </div>
     </main>
+
+    <script src="script.js"></script>
 </body>
 
 </html>

@@ -3,9 +3,17 @@
     text-align: center;
 }
 
-
-.testing
+.add_book
 {
-    margin: 50vh;
     text-align: center;
+    margin-top: 10px;
+    border: 1px solid black;
+    border-radius: 10px;
+    max-width: 400px;
+    width: 100%;
+}
+
+.add_book input,button
+{
+    margin: 10px;
 }
