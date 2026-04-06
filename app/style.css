@@ -1,19 +1,239 @@
-.top-header
-{
-    text-align: center;
+*{
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+
+    font-family:'Roboto Mono';
 }
 
-.add_book
-{
+body{
+    background: linear-gradient(135deg, #ff416c, #ff4b2b);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#top-header{
     text-align: center;
-    margin-top: 10px;
-    border: 1px solid black;
-    border-radius: 10px;
-    max-width: 400px;
+    padding: 15px;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 2rem;
+}
+
+#book-total {
+    color: white;
+    border: 1px solid rgba(255, 105, 180, 0.4);
+    border-radius: 16px;
+    padding: 20px;
+    max-width: 200px;
+
+    background: rgba(255, 255, 255, 0.03);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 25px;
+}
+
+/* Big number */
+#book-count {
+    font-size: 2rem;
+    font-weight: 600;
+    color: rgb(255, 105, 180);
+    margin: 0;
+}
+
+/* Small label */
+#book-label {
+    font-size: 0.8rem;
+    opacity: 0.7;
+    margin-top: 4px;
+}
+
+
+#all-books{
+    justify-content: center;
+    align-items: center;
+    border: 2px solid rgb(255, 105, 180);
+    max-width: 90%;
     width: 100%;
+    font-size: 20px;
+    border-radius: 20px;
+    padding: 15px;
+    height: 100%;
+    max-height: 600px;
+    margin-bottom: 50px;
+    overflow: auto;
 }
 
-.add_book input,button
+.book-title
 {
-    margin: 10px;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    font-size: 25px;
+    margin-bottom: 1rem;
+}
+
+.book-author{
+    color:white;
+    text-align: center;
+    text-decoration: underline;
+    font-size: 15px;
+    margin-bottom: 1rem;
+
+}
+.book-description{
+    text-align: center;
+    color:white;
+    margin-bottom: 3rem;
+}
+
+#add-books {
+    color: white;
+    border: 2px solid rgb(255, 105, 180);
+    max-width: 90%;
+    width: 100%;
+    border-radius: 16px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.03);
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom:50px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+}
+
+.full {
+    grid-column: 1 / -1;
+}
+
+#title-input, #author-input, #genre-input,
+#description-area{
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.2);
+    color: white;
+    outline: none;
+}
+
+#title-input:focus, #author-input:focus, #genre-input:focus,
+#description-area:focus{
+    border-color: rgb(255, 105, 180);
+}
+
+#description-area {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* Button spans full width */
+#add-btn {
+    grid-column: 1 / -1;
+
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    background: rgb(255, 105, 180);
+    color: white;
+    font-size: 0.95rem;
+    cursor: pointer;
+
+    transition: background 0.2s ease, transform 0.1s ease;
+}
+
+/* Hover + click feel */
+#add-btn:hover {
+    background: rgb(255, 85, 160);
+}
+
+#add-btn:active {
+    transform: scale(0.98);
+}
+
+/* Container */
+#search-books {
+   color: white;
+    border: 2px solid rgb(255, 105, 180);
+    max-width: 90%;
+    width: 100%;
+    border-radius: 16px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.03);
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom:50px;
+}
+
+/* Layout helpers */
+#search-books .field {
+    display: flex;
+    flex-direction: column;
+}
+
+#search-books .full {
+    grid-column: 1 / -1;
+}
+
+/* Labels (scoped) */
+#search-books label {
+    font-size: 0.85rem;
+    margin-bottom: 6px;
+    opacity: 0.8;
+}
+
+/* Inputs (scoped) */
+#search-title,
+#search-author,
+#search-genre {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 105, 180, 0.25);
+    background: rgba(0, 0, 0, 0.2);
+    color: white;
+    outline: none;
+}
+
+/* Focus states individually */
+#search-title:focus,
+#search-author:focus,
+#search-genre:focus {
+    border-color: rgb(255, 105, 180);
+    box-shadow: 0 0 0 1px rgb(255, 105, 180);
+}
+
+/* Button */
+#search-btn {
+    grid-column: 1 / -1;
+
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    background: rgb(255, 105, 180);
+    color: white;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+
+    transition: background 0.2s ease, transform 0.1s ease;
+}
+
+#search-btn:hover {
+    background: rgb(235, 90, 165);
+}
+
+#search-btn:active {
+    transform: scale(0.98);
 }

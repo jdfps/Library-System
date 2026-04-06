@@ -15,16 +15,15 @@ async def create(book: Book):
     return await books.add_book(book)
 
 
+@router.get("/books/count")
+async def get_book_count():
+    return await books.get_amount()
+
+
 # get all books
 @router.get("/books", response_model=List[ShowBook])
 async def all():
     return await books.get_all_books()
-
-
-# return book by ISBN
-@router.get("/books/{ISBN}", response_model=ShowBook)
-async def get_isbn(ISBN: str):
-    return await books.get_book_isbn(ISBN)
 
 
 # return book by title

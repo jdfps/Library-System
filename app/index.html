@@ -6,43 +6,78 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Library-System</title>
     <link rel="stylesheet" href="style.css">
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap"
+        rel="stylesheet">
+
 </head>
 
 <body>
 
-    <header class="top-header">
-        This is going to be the header
+    <header id="top-header">
+        <h1>Samantha's Library System</h1>
     </header>
 
-    <main style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
-        <div class="add_book">
-            <label for="isbn">Enter ISBN-13</label>
-            <input id="isbn" type="text" placeholder="ISBN">
-            <br>
+    <div id="book-total">
+        <p id="book-count">300</p>
+        <span id="book-label">Books in Library</span>
+    </div>
 
-            <label for="author">Enter Author</label>
-            <input id="author" type="text" placeholder="Author">
-            <br>
+    <!--Container To Hold All Books @ Top of Page-->
+    <div id="all-books">
+    </div>
 
-            <label for="title">Enter Title</label>
-            <input id="title" type="text" placeholder="Title">
-            <br>
 
-            <label for="genre">Enter Genre</label>
-            <input id="genre" type="text" placeholder="Genre">
-            <br>
-
-            <label for="description">Enter Description</label>
-            <input id="description" type="text" placeholder="Description">
-            <br>
-
-            <button id="btn-add-book">Add Book</button>
+    <!--Container To Add Books-->
+    <h2 style="color: white;">🩷 Add A Book</h2>
+    <div id="add-books">
+        <div class="field">
+            <label for="title">Title</label>
+            <input id="title-input" type="text" placeholder="Enter title">
         </div>
 
-        <div class="book-output">
-            <p id="book-paragraph"></p>
+        <div class="field">
+            <label for="author">Author</label>
+            <input id="author-input" type="text" placeholder="Enter author">
         </div>
-    </main>
+
+        <div class="field full">
+            <label for="genre">Genre</label>
+            <input id="genre-input" type="text" placeholder="e.g. Fantasy, Sci-Fi">
+        </div>
+
+        <div class="field full">
+            <label for="description">Description</label>
+            <textarea id="description-area" placeholder="Write a short description..."></textarea>
+        </div>
+
+        <!-- Add button -->
+        <button id="add-btn">Add</button>
+    </div>
+
+    <h2 style="color: white;">🔍 Search For A book</h2>
+    <div id="search-books">
+        <div class=" field">
+            <label for="search-title">Title</label>
+            <input id="search-title" type="text" placeholder="Search by title">
+        </div>
+
+        <div class="field">
+            <label for="search-author">Author</label>
+            <input id="search-author" type="text" placeholder="Search by author">
+        </div>
+
+        <div class="field full">
+            <label for="search-genre">Genre</label>
+            <input id="search-genre" type="text" placeholder="Search by genre">
+        </div>
+
+        <button id="search-btn">Search</button>
+    </div>
+
 
     <script src="script.js"></script>
 </body>
