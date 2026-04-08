@@ -6,7 +6,7 @@ async function getTotalBooks() {
     console.log("Retrieving Number Of Books");
 
     try {
-        const result = await fetch("http://127.0.0.1:8000/books/count");
+        const result = await fetch("http://100.74.27.25:8000/books/count");
 
         if (!result.ok) {
             throw new Error(`HTTP error! Status: ${result.status}`);
@@ -30,7 +30,7 @@ async function loadBooks() {
     console.log("Retrieving Books");
 
     try {
-        const result = await fetch("http://127.0.0.1:8000/books");
+        const result = await fetch("http://100.74.27.25:8000/books");
 
         if (!result.ok) {
             throw new Error(`HTTP error! Status: ${result.status}`);
@@ -93,7 +93,7 @@ addBtn.addEventListener("click", async () => {
     };
 
     try {
-        const response = await fetch("http://127.0.0.1:8000/books", {
+        const response = await fetch("http://100.74.27.25:8000/books", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -134,7 +134,7 @@ searchBtn.addEventListener("click", async () => {
     const genre = document.getElementById("search-genre").value.trim();
 
     try {
-        let url = "http://127.0.0.1:8000/books/search?";
+        let url = "http://100.74.27.25:8000/books/search?";
         const params = new URLSearchParams();
 
         if (title) params.append("title", title);
@@ -208,7 +208,7 @@ async function deleteBook(title, author) {
 
     try {
         const response = await fetch(
-            `http://127.0.0.1:8000/books/${encodeURIComponent(title)}/${encodeURIComponent(author)}`,
+            `http://100.74.27.25/books/${encodeURIComponent(title)}/${encodeURIComponent(author)}`,
             {
                 method: "DELETE"
             }
