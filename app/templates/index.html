@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Library-System</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/static/style.css">
 
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,7 +22,7 @@
     </header>
 
     <div id="book-total">
-        <p id="book-count">300</p>
+        <p id="book-count">N/A</p>
         <span id="book-label">Books in Library</span>
     </div>
 
@@ -78,8 +78,28 @@
         <button id="search-btn">Search</button>
     </div>
 
+    <h2 style="color: white;">🗑️ Delete A Book</h2>
+    <div id="delete-books">
+        <div class="field">
+            <label for="delete-title">Title</label>
+            <input id="delete-title" type="text" placeholder="Enter title to delete">
+        </div>
 
-    <script src="script.js"></script>
+        <div class="field">
+            <label for="delete-author">Author</label>
+            <input id="delete-author" type="text" placeholder="Enter author">
+        </div>
+
+        <div class="field full">
+            <label for="delete-genre">Genre</label>
+            <input id="delete-genre" type="text" placeholder="Enter genre">
+        </div>
+
+        <button id="delete-btn">Delete</button>
+    </div>
+
+
+    <script src="/static/script.js"></script>
 </body>
 
 </html>

@@ -237,3 +237,126 @@ body{
 #search-btn:active {
     transform: scale(0.98);
 }
+
+
+/* Delete section */
+#delete-books {
+    color: white;
+    border: 2px solid rgb(255, 105, 180);
+    max-width: 90%;
+    width: 100%;
+    border-radius: 16px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.03);
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 50px;
+}
+
+#delete-books .field {
+    display: flex;
+    flex-direction: column;
+}
+
+#delete-books .full {
+    grid-column: 1 / -1;
+}
+
+#delete-books label {
+    font-size: 0.85rem;
+    margin-bottom: 6px;
+    opacity: 0.8;
+}
+
+#delete-title,
+#delete-author,
+#delete-genre {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 105, 180, 0.25);
+    background: rgba(0, 0, 0, 0.2);
+    color: white;
+    outline: none;
+}
+
+#delete-title:focus,
+#delete-author:focus,
+#delete-genre:focus {
+    border-color: rgb(255, 105, 180);
+    box-shadow: 0 0 0 1px rgb(255, 105, 180);
+}
+
+#delete-btn {
+    grid-column: 1 / -1;
+
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    background: rgb(255, 105, 180);
+    color: white;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+
+    transition: background 0.2s ease, transform 0.1s ease;
+}
+
+#delete-btn:hover {
+    background: rgb(235, 90, 165);
+}
+
+#delete-btn:active {
+    transform: scale(0.98);
+}
+
+/* Each book card */
+.book {
+    position: relative; /* needed for absolute button positioning */
+    border: 1px solid rgba(255, 105, 180, 0.4);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 20px;
+
+    background: rgba(255, 255, 255, 0.05);
+
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+/* subtle hover effect */
+.book:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 105, 180, 0.2);
+}
+
+.book-delete-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: none;
+
+    background: rgba(255, 105, 180, 0.2);
+    color: white;
+    font-size: 0.8rem;
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+/* hover effect */
+.book-delete-btn:hover {
+    background: rgb(255, 105, 180);
+    transform: scale(1.05);
+}
+
+/* click effect */
+.book-delete-btn:active {
+    transform: scale(0.95);
+}
+.book-title {
+    margin-top: 10px;
+}

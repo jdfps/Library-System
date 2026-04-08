@@ -16,16 +16,6 @@ async def get_all_books():
     return books
 
 
-# return book by title
-async def get_book_title(title: str):
-    book = await books_collection.find_one({"Title": title})
-
-    if not book:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
-
-    return book
-
-
 # delete book
 async def del_book(title: str, author: str):
     print("User Deleting Book!")
@@ -36,13 +26,9 @@ async def del_book(title: str, author: str):
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"{title} by {author} Not Found In Database",
         )
-    print(f"deleting book w/ book id: {book["_id"]}")
+    print(f"deleting book w/ book id: {book['_id']}")
     await books_collection.delete_one({"_id": book["_id"]})
     return f"{title} by {author} deleted successfully"
-
-
-# return books by author
-# return books by genre
 
 
 # add books ()
@@ -61,3 +47,29 @@ async def add_book(book: Book):
 async def get_amount():
     count = await books_collection.count_documents({})
     return {"count": count}
+
+
+from ..db import books_collection
+from ..schemas import Book, ShowBook
+from fastapi import HTTPException, status
+
+
+# search books
+async def search_books(title: str = None, author: str = None, genre: str = None):
+    query = {}
+
+    if title:
+        query["Title"] = {"$regex": title, "$options": "i"}
+
+    if author:
+        query["Author"] = {"$regex": author, "$options": "i"}
+
+    if genre:
+        query["Genre"] = {"$regex": genre, "$options": "i"}
+
+    books = []
+
+    async for book in books_collection.find(query):
+        books.append(book)
+
+    return books

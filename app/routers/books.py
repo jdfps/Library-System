@@ -2,6 +2,8 @@ from fastapi import APIRouter
 from ..schemas import Book, ShowBook
 from typing import List
 
+from fastapi import APIRouter, Query
+
 
 from ..repository import books
 
@@ -26,17 +28,16 @@ async def all():
     return await books.get_all_books()
 
 
-# return book by title
-@router.get("/books/{title}", response_model=ShowBook)
-async def get_title(title: str):
-    return await books.get_book_title(title)
-
-
 # delete books
 @router.delete("/books/{title}/{author}")
 async def delete_book(title: str, author: str):
     return await books.del_book(title, author)
 
 
-# return books by author
-# return books by genre
+@router.get("/books/search", response_model=List[ShowBook])
+async def search(
+    title: str | None = Query(default=None),
+    author: str | None = Query(default=None),
+    genre: str | None = Query(default=None),
+):
+    return await books.search_books(title, author, genre)
