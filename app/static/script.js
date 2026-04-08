@@ -208,7 +208,7 @@ async function deleteBook(title, author) {
 
     try {
         const response = await fetch(
-            `http://100.74.27.25/books/${encodeURIComponent(title)}/${encodeURIComponent(author)}`,
+            `http://100.74.27.25:8000/books/${encodeURIComponent(title)}/${encodeURIComponent(author)}`,
             {
                 method: "DELETE"
             }
