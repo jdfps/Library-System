@@ -341,7 +341,7 @@ body{
 
     background: rgba(255, 105, 180, 0.2);
     color: white;
-    font-size: 0.8rem;
+    font-size: 1rem;
     cursor: pointer;
 
     transition: all 0.2s ease;
@@ -359,4 +359,32 @@ body{
 }
 .book-title {
     margin-top: 10px;
+}
+
+.book-edit-btn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: none;
+
+    background: rgba(255, 105, 180, 0.2);
+    color: white;
+    font-size: 0.8rem;
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+/* hover */
+.book-edit-btn:hover {
+    background: rgb(255, 105, 180);
+    transform: scale(1.05);
+}
+
+/* click */
+.book-edit-btn:active {
+    transform: scale(0.95);
 }

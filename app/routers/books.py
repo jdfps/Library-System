@@ -41,3 +41,9 @@ async def search(
     genre: str | None = Query(default=None),
 ):
     return await books.search_books(title, author, genre)
+
+
+# update book
+@router.put("/books/{title}/{author}")
+async def update_existing_book(title: str, author: str, book: Book):
+    return await books.update_book(title, author, book)

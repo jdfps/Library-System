@@ -1,89 +1,141 @@
-
-
 const amount_container = document.getElementById("book-count");
+const book_container = document.getElementById("all-books");
+const addBtn = document.getElementById("add-btn");
+const searchBtn = document.getElementById("search-btn");
+const deleteBtn = document.getElementById("delete-btn");
+
+const BASE_URL = "http://127.0.0.1:8000";
+
+// GLOBAL STATE (must be at top)
+let editingBook = null;
+
 
 async function getTotalBooks() {
     console.log("Retrieving Number Of Books");
 
     try {
-        const result = await fetch("http://100.74.27.25:8000/books/count");
+        const result = await fetch(`${BASE_URL}/books/count`);
 
         if (!result.ok) {
             throw new Error(`HTTP error! Status: ${result.status}`);
         }
 
         const data = await result.json();
-
         amount_container.innerHTML = data.count;
-
     } catch (error) {
         console.log("Error getting number of books", error);
     }
 }
 
-document.addEventListener("DOMContentLoaded", getTotalBooks);
+function attachBookButtonListeners() {
+    document.querySelectorAll(".book-delete-btn").forEach((button) => {
+        button.addEventListener("click", async () => {
+            const title = button.dataset.title;
+            const author = button.dataset.author;
 
+            const confirmed = confirm(`Delete "${title}" by ${author}?`);
+            if (!confirmed) return;
 
+            await deleteBook(title, author);
+        });
+    });
 
-const book_container = document.getElementById("all-books");
+    document.querySelectorAll(".book-edit-btn").forEach((button) => {
+        button.addEventListener("click", () => {
+            document.getElementById("title-input").value = button.dataset.title;
+            document.getElementById("author-input").value = button.dataset.author;
+            document.getElementById("genre-input").value = button.dataset.genre;
+            document.getElementById("description-area").value = button.dataset.description;
+
+            editingBook = {
+                title: button.dataset.title,
+                author: button.dataset.author
+            };
+
+            addBtn.textContent = "Update Book";
+            console.log("Editing:", editingBook);
+        });
+    });
+}
+
+function renderBooks(books) {
+    book_container.innerHTML = "";
+
+    if (books.length === 0) {
+        book_container.innerHTML = `<p class="book-description">No books found.</p>`;
+        return;
+    }
+
+    for (const book of books) {
+        book_container.innerHTML += `
+<div class="book">
+    <button 
+        class="book-btn book-edit-btn"
+        data-title="${book.Title}"
+        data-author="${book.Author}"
+        data-genre="${book.Genre}"
+        data-description="${book.Description}">
+        ✏️ Edit
+    </button>
+
+    <button 
+        class="book-btn book-delete-btn"
+        data-title="${book.Title}"
+        data-author="${book.Author}">
+        🗑 Delete
+    </button>
+
+    <p class="book-title">${book.Title}</p>
+    <p class="book-author">${book.Author}</p>
+    <p class="book-description">${book.Description}</p>
+</div>
+`;
+    }
+
+    attachBookButtonListeners();
+}
+
 async function loadBooks() {
     console.log("Retrieving Books");
 
     try {
-        const result = await fetch("http://100.74.27.25:8000/books");
+        const result = await fetch(`${BASE_URL}/books`);
 
         if (!result.ok) {
             throw new Error(`HTTP error! Status: ${result.status}`);
         }
 
         const books = await result.json();
-
-        book_container.innerHTML = "";
-
-        for (const book of books) {
-            book_container.innerHTML += `
-        <div class="book">
-            <p class="book-title">${book.Title}</p>
-            <p class="book-author">${book.Author}</p>
-            <p class="book-description">${book.Description}</p>
-
-            <button 
-                class="book-delete-btn"
-                data-title="${book.Title}"
-                data-author="${book.Author}">
-                🗑 Delete
-            </button>
-        </div>
-    `;
-        }
-
-        document.querySelectorAll(".book-delete-btn").forEach(button => {
-            button.addEventListener("click", async () => {
-                const title = button.dataset.title;
-                const author = button.dataset.author;
-
-                const confirmed = confirm(`Delete "${title}" by ${author}?`);
-                if (!confirmed) return;
-
-                await deleteBook(title, author);
-            });
-        });
-
+        renderBooks(books);
     } catch (error) {
         console.error("Error loading books:", error);
     }
 }
 
-document.addEventListener("DOMContentLoaded", loadBooks);
+document.addEventListener("DOMContentLoaded", () => {
+    editingBook = null; // force reset
 
+    addBtn.textContent = "Add Book"; // force correct button text
 
-const addBtn = document.getElementById("add-btn");
+    document.getElementById("title-input").value = "";
+    document.getElementById("author-input").value = "";
+    document.getElementById("genre-input").value = "";
+    document.getElementById("description-area").value = "";
+
+    getTotalBooks();
+    loadBooks();
+});
 
 addBtn.addEventListener("click", async () => {
-    const title = document.getElementById("title-input").value;
-    const author = document.getElementById("author-input").value;
-    const genre = document.getElementById("genre-input").value;
-    const description = document.getElementById("description-area").value;
+    const title = document.getElementById("title-input").value.trim();
+    const author = document.getElementById("author-input").value.trim();
+    const genre = document.getElementById("genre-input").value.trim();
+    const description = document.getElementById("description-area").value.trim();
+
+    if (!title || !author || !genre || !description) {
+        alert("Please fill out all book fields.");
+        return;
+    }
 
     const newBook = {
         Title: title,
@@ -93,48 +145,63 @@ addBtn.addEventListener("click", async () => {
     };
 
     try {
-        const response = await fetch("http://100.74.27.25:8000/books", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(newBook)
-        });
+        let response;
 
-        if (!response.ok) {
-            throw new Error("Failed to add book");
+        if (editingBook) {
+            response = await fetch(
+                `${BASE_URL}/books/${encodeURIComponent(editingBook.title)}/${encodeURIComponent(editingBook.author)}`,
+                {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(newBook)
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error("Failed to update book");
+            }
+
+            editingBook = null;
+            addBtn.textContent = "Add";
+        } else {
+            response = await fetch(`${BASE_URL}/books`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(newBook)
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to add book");
+            }
         }
 
         const data = await response.json();
         console.log(data);
 
-        // refresh the page
         loadBooks();
         getTotalBooks();
 
-        // clear input
         document.getElementById("title-input").value = "";
         document.getElementById("author-input").value = "";
         document.getElementById("genre-input").value = "";
         document.getElementById("description-area").value = "";
-
     } catch (error) {
-        console.error("Error adding book:", error);
+        console.error("Error saving book:", error);
     }
 });
 
-
-
 // searching for books
-const searchBtn = document.getElementById("search-btn");
-
 searchBtn.addEventListener("click", async () => {
     const title = document.getElementById("search-title").value.trim();
     const author = document.getElementById("search-author").value.trim();
     const genre = document.getElementById("search-genre").value.trim();
 
     try {
-        let url = "http://100.74.27.25:8000/books/search?";
+        let url = `${BASE_URL}/books/search?`;
         const params = new URLSearchParams();
 
         if (title) params.append("title", title);
@@ -150,37 +217,11 @@ searchBtn.addEventListener("click", async () => {
         }
 
         const books = await response.json();
-
-        book_container.innerHTML = "";
-
-        if (books.length === 0) {
-            book_container.innerHTML = `<p class="book-description">No books found.</p>`;
-            return;
-        }
-
-        for (const book of books) {
-            book_container.innerHTML += `
-        <div class="book">
-            <p class="book-title">${book.Title}</p>
-            <p class="book-author">${book.Author}</p>
-            <p class="book-description">${book.Description}</p>
-
-            <button 
-                class="book-delete-btn"
-                data-title="${book.Title}"
-                data-author="${book.Author}">
-                🗑 Delete
-            </button>
-        </div>
-    `;
-        }
-
+        renderBooks(books);
     } catch (error) {
         console.error("Error searching books:", error);
     }
 });
-
-const deleteBtn = document.getElementById("delete-btn");
 
 deleteBtn.addEventListener("click", async () => {
     const title = document.getElementById("delete-title").value.trim();
@@ -201,14 +242,12 @@ deleteBtn.addEventListener("click", async () => {
     document.getElementById("delete-genre").value = "";
 });
 
-
-
 async function deleteBook(title, author) {
     console.log("Deleting book:", title, author);
 
     try {
         const response = await fetch(
-            `http://100.74.27.25:8000/books/${encodeURIComponent(title)}/${encodeURIComponent(author)}`,
+            `${BASE_URL}/books/${encodeURIComponent(title)}/${encodeURIComponent(author)}`,
             {
                 method: "DELETE"
             }
@@ -223,7 +262,6 @@ async function deleteBook(title, author) {
 
         loadBooks();
         getTotalBooks();
-
     } catch (error) {
         console.error("Error deleting book:", error);
     }

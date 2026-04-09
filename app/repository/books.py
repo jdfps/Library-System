@@ -73,3 +73,33 @@ async def search_books(title: str = None, author: str = None, genre: str = None)
         books.append(book)
 
     return books
+
+
+# update book
+async def update_book(old_title: str, old_author: str, updated_book: Book):
+
+    print("User Updating Book!")
+
+    existing_book = await books_collection.find_one(
+        {"Title": old_title, "Author": old_author}
+    )
+
+    if not existing_book:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"{old_title} by {old_author} not found in database",
+        )
+
+    await books_collection.update_one(
+        {"_id": existing_book["_id"]},
+        {
+            "$set": {
+                "Title": updated_book.Title,
+                "Author": updated_book.Author,
+                "Genre": updated_book.Genre,
+                "Description": updated_book.Description,
+            }
+        },
+    )
+
+    return {"message": f"{old_title} by {old_author} updated successfully"}
