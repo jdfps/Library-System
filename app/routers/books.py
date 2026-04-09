@@ -44,6 +44,6 @@ async def search(
 
 
 # update book
-@router.put("/books/{title}/{author}")
-async def update_existing_book(title: str, author: str, book: Book):
-    return await books.update_book(title, author, book)
+@router.put("/books/{old_title}/{old_author}")
+async def update_existing_book(old_title: str, old_author: str, book: Book):
+    return await books.update_book(old_title, old_author, book)

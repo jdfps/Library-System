@@ -4,11 +4,13 @@ const addBtn = document.getElementById("add-btn");
 const searchBtn = document.getElementById("search-btn");
 const deleteBtn = document.getElementById("delete-btn");
 
-const BASE_URL = "http://127.0.0.1:8000";
+const BASE_URL = "http://100.74.27.25:8000";
 
 // GLOBAL STATE (must be at top)
 let editingBook = null;
 
+
+const formHeader = document.getElementById("form-header");
 
 async function getTotalBooks() {
     console.log("Retrieving Number Of Books");
@@ -26,6 +28,7 @@ async function getTotalBooks() {
         console.log("Error getting number of books", error);
     }
 }
+
 
 function attachBookButtonListeners() {
     document.querySelectorAll(".book-delete-btn").forEach((button) => {
@@ -53,6 +56,7 @@ function attachBookButtonListeners() {
             };
 
             addBtn.textContent = "Update Book";
+            formHeader.textContent = "🩷 Update A Book";
             console.log("Editing:", editingBook);
         });
     });
@@ -67,27 +71,32 @@ function renderBooks(books) {
     }
 
     for (const book of books) {
+        const title = book.Title || book.title;
+        const author = book.Author || book.author;
+        const genre = book.Genre || book.genre;
+        const description = book.Description || book.description;
+
         book_container.innerHTML += `
 <div class="book">
     <button 
         class="book-btn book-edit-btn"
-        data-title="${book.Title}"
-        data-author="${book.Author}"
-        data-genre="${book.Genre}"
-        data-description="${book.Description}">
+        data-title="${title}"
+        data-author="${author}"
+        data-genre="${genre}"
+        data-description="${description}">
         ✏️ Edit
     </button>
 
     <button 
         class="book-btn book-delete-btn"
-        data-title="${book.Title}"
-        data-author="${book.Author}">
+        data-title="${title}"
+        data-author="${author}">
         🗑 Delete
     </button>
 
-    <p class="book-title">${book.Title}</p>
-    <p class="book-author">${book.Author}</p>
-    <p class="book-description">${book.Description}</p>
+    <p class="book-title">${title}</p>
+    <p class="book-author">${author}</p>
+    <p class="book-description">${description}</p>
 </div>
 `;
     }
@@ -106,6 +115,9 @@ async function loadBooks() {
         }
 
         const books = await result.json();
+        console.log("BOOKS FROM API:", books);
+        console.log("FIRST BOOK:", books[0]);
+
         renderBooks(books);
     } catch (error) {
         console.error("Error loading books:", error);
